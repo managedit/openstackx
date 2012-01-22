@@ -363,10 +363,10 @@ class AdminFlavorController(ExtrasFlavorController):
         purge = env.get('purge', False)
 
         flavor = instance_types.get_instance_type_by_flavor_id(id)
-        if purge:
-            instance_types.purge(flavor['name'])
-        else:
+        if purge[0] in [False, 'False', 'FALSE', 'false']:
             instance_types.destroy(flavor['name'])
+        else:
+            instance_types.purge(flavor['name'])
 
         return exc.HTTPAccepted()
 
